@@ -3,6 +3,5 @@ This is a PHP Duinocoin Faucet Script self created by Gamecat999 and lovely AI a
 To Run this faucet you will need a host that supports PHP. Believe me, i have tried and found 0 free hosting services available that will work. 
 Best is to self host.
 I will provide help if i can about the script on request sooooo yeah.
-This scripts implements a basic Cooldown and pretty much a basic UI. You probably want to upgrade it A LOT
-if you plan on self hosting make sure that openssl is initiated in your php.ini file.
-
+This scripts implements a basic Cooldown that stores the name of the claimer and the time they claimed in a cooldown.txt file. 
+make sure that you have openssl extension on in your php.ini file ot it wont be able to send the request to the duinocoin Api. so see the live faucet go to https://kf.stormsurge.xyz/ 
