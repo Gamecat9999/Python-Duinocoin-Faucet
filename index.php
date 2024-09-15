@@ -1,10 +1,12 @@
 <html>
+<head>
+
+</head>
 <script>
-//you will Have to set the cooldown that you want in 2 Different places. one right below here and the other on line 50
-var cooldownTime = 1200;
+// Set the cooldown time in seconds
+var cooldownTime = 7200;
 
-
-// This checks when the last faucet submit was in order to see how long the cooldown is 
+// Function to check if the form can be submitted
 function validateForm() {
     var currentTime = new Date().getTime() / 1000;
     var lastSubmitTime = localStorage.getItem('lastSubmitTime');
@@ -19,65 +21,51 @@ function validateForm() {
 }
 </script>
 <body>
-<title>Kats Duco Faucet🐱</title>
-<h1>Get free DUCOS!</h1>
-<h2>Enter your username below to get freeee Duinocoin! Claim DUCO Every 30 minutes!</h2>
+<title>KatFaucet🐱</title>
+<link rel="stylesheet" type="text/css" href="dark-mode.css">
+<h1>Katfaucet😻</h1>
+<h2>Enter your username below to get 2 free Duinocoin Every 2 Hours!</h2>
 
+<img src="https://catfaucet.alwaysdata.net/photos/cat4.jpg" alt="Cute cat!">
 
-// 
+<img src="https://catfaucet.alwaysdata.net/photos/cat.jpg" alt="Cute cat!">
+
 <form action="" method="post" onsubmit="return validateForm()">
     <label for="username">Enter your username:</label>
     <input type="text" id="username" name="username" required>
     <input type="submit" value="Get DUCOS">
 </form>
-<h3>Join our discord Server!</h3>
-<h4>When you join Make sure to thank Elapt1c for hosting this faucet!</h4>
-
-<h5>if you want a copy of this faucet for a template DM Kat on Discord!</h5>
-<a href="https://discord.gg/HUbHqUQUD2">Clickhere!</a>
-<h4> Ignore this wacky stuff down here. only important thing is the "transaction successful that SHOULD show up down there under all the junk.</h4>
-
-
-</body>
-</html>
-
 
 <?php
-// Start the session
-session_start();
-
-// Here is the second place to make sure to set the cooldown.
-$cooldownTime = 1200;
-
-// Check if the cooldown list is set in the session
-if (!isset($_SESSION['cooldownList'])) {
-    $_SESSION['cooldownList'] = array();
-}
-
-// Remove expired usernames from the cooldown list
-foreach ($_SESSION['cooldownList'] as $username => $timestamp) {
-    if (time() - $timestamp > $cooldownTime) {
-        unset($_SESSION['cooldownList'][$username]);
-    }
+// File path to store the cooldown data
+$cooldownFile = 'cooldown.txt';
+// Initialize the cooldown data array
+$cooldownData = array();
+$cooldownTime = 7200;
+// Read the cooldown data from the file if it exists
+if (file_exists($cooldownFile)) {
+    $cooldownData = json_decode(file_get_contents($cooldownFile), true);
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST["username"];
-
-    // Check if the username is in the cooldown list
-    if (array_key_exists($username, $_SESSION['cooldownList'])) {
-        echo "Please wait for the cooldown period to expire.";
-        exit;
+    $username = "katfaucet";
+    $recipient = $_POST["username"];
+    $password = "Your_Password_here";
+    $memo = "Faucet CLAIM";
+    //set the amount
+    $amount = "2";
+    $currentTime = time(); // Get the current time
+     // Check if the cooldown data array is not null
+     if ($cooldownData !== null) {
+        // Check if the recipient's username is in the cooldown list
+        if (array_key_exists($recipient, $cooldownData) && $currentTime - $cooldownData[$recipient] < $cooldownTime) {
+            echo "Please wait for the cooldown period to expire.";
+            exit;
+        }
     }
 
-    // Send the request to the Duinocoin API
-  //Enter your credits here 
-    $username = "YOUR_USERNAME_HERE";
-    $password = "ENTER_YA_PASSWORD";
-    $recipient = $_POST["username"];
-    $memo = "Faucet Claim!";
-    // Enter the amount of duco you want the claim to be here
-    $amount = "2";
+   
+    // Your existing code for sending transaction request...
 
     $url = "https://server.duinocoin.com/transaction/?username=$username&password=$password&recipient=$recipient&amount=$amount&memo=$memo";
 
@@ -88,18 +76,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $transactionData = json_decode($response, true);
 
-        if ($transactionData['success']) {
+        if (isset($transactionData['success']) && $transactionData['success']) {
             echo "Transaction successful." . $transactionData['transaction'];
-            // Update the last submit time in the session
-            $_SESSION['lastSubmitTime'] = time();
-            // Store the last submit time in local storage for client-side validation
-            echo '<script>localStorage.setItem("lastSubmitTime", ' . time() . ');</script>';
+            // Update the last submit time in the cooldown data
+            $cooldownData[$recipient] = $currentTime;
+            // Save the updated cooldown data to the file
+            file_put_contents($cooldownFile, json_encode($cooldownData));
         } else {
-            echo "Error: Transaction failed. Reason: " . $transactionData['error'];
+            echo "Error: Transaction failed. Reason: " . (isset($transactionData['error']) ? $transactionData['error'] : 'Unknown');
         }
     }
-
-    // After successful transaction, add the username to the cooldown list
-    $_SESSION['cooldownList'][$username] = time();
 }
 ?>
+<h2> If you want to donate send ducos to katfaucet!</h2>
+</body>
+</html>
