@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KatFaucet🐱</title>
+    <style>
+        body.dark-mode {
+            background-color: black;
+            color: white;
+        }
+
+        body.dark-mode h1,
+        body.dark-mode h2 {
+            color: white;
+        }
+
+        body.dark-mode img {
+            filter: brightness(100%);
+        }
+
+        body.dark-mode input[type="text"],
+        body.dark-mode input[type="submit"] {
+            background-color: #333;
+            color: white;
+        }
+
+        body.dark-mode form {
+            background-color: #555;
+        }
+
+        body.dark-mode a {
+            color: lightblue;
+        }
+    </style>
+</head>
+
+<body>
+
+    <script>
+        // Function to apply dark mode based on the user's preferred color scheme
+        function applyDarkMode() {
+            var body = document.body;
+            var prefersDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+            if (prefersDarkMode) {
+                body.classList.add("dark-mode");
+            } else {
+                body.classList.remove("dark-mode");
+            }
+        }
+
+        // Call the applyDarkMode function when the window loads
+        window.addEventListener("load", applyDarkMode);
+
+        // Call the applyDarkMode function when the user changes their preferred color scheme
+        window.matchMedia("(prefers-color-scheme: dark)").addListener(applyDarkMode);
+    </script>
+
+    <h1>Katfaucet😻</h1>
+    <h2>Enter your username below to get 2 free Duinocoin Every 2 Hours!</h2>
+
+    <img src="https://catfaucet.alwaysdata.net/photos/cat4.jpg" alt="Cute cat!">
+
+    <img src="https://catfaucet.alwaysdata.net/photos/cat.jpg" alt="Cute cat!">
+
+    <img src="/captcha.png" alt="Captcha">
+
+    <form action="" method="post">
+        <label for="username">Enter your username:</label>
+        <input type="text" id="username" name="username" required>
+        <label for="captcha">Enter answer for captcha:</label>
+        <input type="text" id="captcha" name="captcha" required>
+        <input type="submit" value="Get DUCOS">
+    </form>
+
+    <h1>Donate</h1>
+    <h2>Duinocoin: <code>katfaucet</code></h2>
+    <h2>Bitcoin lightning: <code>lucasz228@speed.app</code></h2>
+    <h2>Bitcoin: <code>bc1q2kvm3ae34atz88zgq89805wd8excl5s7kzfdjm</code></h2>
+    <h2>Litecoin: <code>ltc1qjtr5g96vnhnlxtrpep02up274e0h6d66pxf9fl</code></h2>
+    <h2>Nano: <code>nano_3acbzt3t66d51edrp9jrnmg5wpr363g5e6udf5otn8s5ppp7dnubbz5epeci</code></h2>
+    <h2>Banano: <code>ban_1zkggp1es14zersaopw4f7doqjkyhm131ryiw9e4qao1unhmoqim7dspuwbw</code></h2>
+    <h2>Doge: <code>DG4EEvoduNuW4kG1SBGM9qvKiEmTARfNyf</code></h2>
+    <h2>Ethereum: <code>0x1324F03E95fB72851Df9FDfEf1516E3450Fd53d2</code></h2>
+</body>
+
+</html>
