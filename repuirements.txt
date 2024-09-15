@@ -1,0 +1,3 @@
+flask
+Pillow==9.5.0
+claptcha
